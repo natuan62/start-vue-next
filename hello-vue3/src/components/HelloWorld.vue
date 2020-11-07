@@ -1,19 +1,31 @@
 <template>
-  <h1>{{ msg }}</h1>
-  <button @click="count++">count is: {{ count }}</button>
-  <p>Edit <code>components/HelloWorld.vue</code> to test hot module replacement.</p>
+  <div>
+    <h1>{{ message }}</h1>
+    <input
+      :value="modelValue"
+      @input="$emit('update:modelValue', $event.target.value)"
+    />
+  </div>
 </template>
 
 <script>
+import { computed, onMounted, onUpdated } from "vue";
+
 export default {
-  name: 'HelloWorld',
+  name: "HelloWorld",
   props: {
-    msg: String
+    msg: String,
+    modelValue: String,
   },
-  data() {
+  data(props) {
+    const message = computed(() => props.msg);
+    onUpdated(() => {
+      console.log("props.modelValue", props.modelValue);
+      console.log('message', message);
+    });
     return {
-      count: 0
-    }
-  }
-}
+      message,
+    };
+  },
+};
 </script>
